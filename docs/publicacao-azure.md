@@ -23,6 +23,12 @@ Nomes usados neste guia. Troque `<sufixo>` por algo único, como suas iniciais e
 A ordem dos passos importa: o banco precisa existir e estar migrado antes da primeira subida da API,
 porque a API consulta a tabela de usuários ao iniciar.
 
+**Como ficou neste projeto.** A assinatura não tinha cota para o plano gratuito F1 do App Service em
+Brazil South, então API e banco foram criados em **West US 3**, na mesma região, para as consultas ao
+banco não cruzarem continentes. A oferta gratuita do Azure SQL falhou na recriação e o banco ficou no tier
+**Básico** (5 DTU, cerca de 5 USD/mês). O App Service está no F1 gratuito, o Static Web Apps no plano
+Free e o Application Insights ligado. O Key Vault (passo 10) não foi feito; os segredos estão em App Settings.
+
 ## 1. Azure SQL Database
 
 No portal, **Criar um recurso** > **SQL Database** > **Criar**.
@@ -199,8 +205,8 @@ gerenciada.
 
    Salve. A lista de variáveis mostra um indicador verde quando a referência foi resolvida.
 
-Se pular esta etapa, remova o Key Vault do diagrama e da tabela em `desenho-solucao.md`, para o desenho
-descrever só o que existe.
+Ao concluir esta etapa, inclua o Key Vault no diagrama e na tabela de `desenho-solucao.md`, para o desenho
+continuar descrevendo só o que existe.
 
 ## Custos
 

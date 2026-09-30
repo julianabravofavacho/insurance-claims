@@ -18,6 +18,15 @@ body {
   margin: 0;
 }
 
+/* Layout desktop (com menu lateral) mais compacto: o Mantine dimensiona tudo em rem,
+   então reduzir a fonte-base encolhe textos, campos e cards proporcionalmente,
+   sem afetar o posicionamento de menus e seletores (diferente de zoom). */
+@media (min-width: 901px) {
+  html {
+    font-size: 85%;
+  }
+}
+
 button,
 input,
 select,

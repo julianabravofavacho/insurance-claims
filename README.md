@@ -122,8 +122,11 @@ Os detalhes e as limitações de cada parte estão nos READMEs do [backend](back
 
 ## Próximos passos
 
+- Migração para .NET 10 LTS: o .NET 8 sai de suporte em 10/11/2026. O plano, com passos, validação e
+  plano de retorno, está em [docs/migracao-dotnet10.md](docs/migracao-dotnet10.md).
 - Perfis de acesso: um perfil aprovador, único que pode aprovar ou rejeitar sinistros, e um perfil operador
   para as demais operações, com a regra aplicada no backend e refletida na interface.
+- Segredos no Azure Key Vault, lidos pelo App Service com Managed Identity, no lugar das App Settings.
 - Testes automatizados de unidade e integração.
 - Refresh token ou autenticação corporativa com Microsoft Entra ID.
 - Gestão de usuários e recuperação de senha.
