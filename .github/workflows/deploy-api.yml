@@ -1,0 +1,46 @@
+name: API - build e deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-api.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore backend/InsuranceClaims.sln
+
+      - name: Build
+        run: dotnet build backend/InsuranceClaims.sln --configuration Release --no-restore
+
+      - name: Publish
+        run: >
+          dotnet publish backend/InsuranceClaims.Api/InsuranceClaims.Api.csproj
+          --configuration Release --no-build --output ${{ runner.temp }}/publish
+
+      # O deploy só roda depois que a variável AZURE_WEBAPP_NAME existe no repositório.
+      # Até lá, o workflow serve como integração contínua (build).
+      - name: Deploy no Azure App Service
+        if: ${{ vars.AZURE_WEBAPP_NAME != '' }}
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ runner.temp }}/publish

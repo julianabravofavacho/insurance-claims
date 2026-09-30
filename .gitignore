@@ -1,0 +1,28 @@
+# .NET
+bin/
+obj/
+.build/
+.vs/
+*.user
+*.suo
+publish/
+
+# Node
+node_modules/
+dist/
+*.local
+npm-debug.log*
+
+# Configuração local e segredos
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json

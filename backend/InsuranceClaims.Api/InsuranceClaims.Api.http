@@ -1,0 +1,70 @@
+@host = http://localhost:5169
+@id = 00000000-0000-0000-0000-000000000000
+
+### Login (troque pelas credenciais do seu usuário; execute antes das demais requisições)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "usuario@exemplo.com",
+  "password": "Troque-Esta-Senha-1!"
+}
+
+### Usuário autenticado
+GET {{host}}/api/auth/me
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Tipos de sinistro (use o id retornado em claimTypeId)
+GET {{host}}/api/claim-types
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Listar (paginado; filtros opcionais: searchTerm, status, claimType, occurrenceDateFrom/To, estimatedAmountMin/Max)
+GET {{host}}/api/claims?pageNumber=1&pageSize=10
+Accept: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Dashboard
+GET {{host}}/api/claims/dashboard
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Criar
+POST {{host}}/api/claims
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+{
+  "claimNumber": "SIN-2026-001",
+  "policyNumber": "AP-001",
+  "insuredName": "Maria Silva",
+  "insuredDocument": "529.982.247-25",
+  "claimTypeId": 1,
+  "occurrenceDate": "2026-01-15",
+  "estimatedAmount": 2500.50,
+  "description": "Colisão com danos no para-choque."
+}
+
+### Consultar (copie o Id retornado na criação para a variável id)
+GET {{host}}/api/claims/{{id}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Atualizar
+PUT {{host}}/api/claims/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+{
+  "claimNumber": "SIN-2026-001",
+  "policyNumber": "AP-001",
+  "insuredName": "Maria Silva",
+  "insuredDocument": "529.982.247-25",
+  "claimTypeId": 2,
+  "occurrenceDate": "2026-01-15",
+  "estimatedAmount": 3000.00,
+  "description": "Orçamento atualizado.",
+  "status": "UnderAnalysis"
+}
+
+### Excluir
+DELETE {{host}}/api/claims/{{id}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
